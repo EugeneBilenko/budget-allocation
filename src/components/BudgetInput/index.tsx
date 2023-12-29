@@ -24,9 +24,8 @@ export const BudgetInput = () => {
 	}, [debouncedValue]);
 
 	return (
-		<div className="w-full whitespace-nowrap p-3 rounded-lg bg-gray-200 flex items-center">
-			<span>Budget: $</span>
-			{/* todo: currency sign */}
+		<div className="w-full whitespace-nowrap px-3 py-1 rounded-lg bg-gray-200 flex items-center">
+			<span>Budget: {values.currency}</span>
 			<input
 				type="number"
 				name="budget"

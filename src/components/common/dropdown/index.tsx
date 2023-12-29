@@ -5,7 +5,7 @@ import { FiChevronDown } from 'react-icons/fi';
 interface Props {
 	children: React.ReactNode;
 	headerName: string;
-	wrapperClassName: string;
+	wrapperClassName: React.HTMLAttributes<HTMLButtonElement>['className'];
 }
 
 export const Dropdown = ({ wrapperClassName, headerName, children }: Props) => {
@@ -39,7 +39,7 @@ export const Dropdown = ({ wrapperClassName, headerName, children }: Props) => {
 			</button>
 			<div
 				className={twMerge(
-					'absolute top-full right-0 w-full hidden rounded-lg border border-gray-200',
+					'absolute top-full right-0 w-full hidden overflow-hidden rounded-lg border border-gray-200 bg-white',
 					isOpen && 'flex'
 				)}
 			>

@@ -88,7 +88,10 @@ export const AllocationTable = () => {
 					{values.departments.map((dep) => (
 						<tr key={dep.id}>
 							<td>{dep.name}</td>
-							<td>${dep.allocatedBudget}</td>
+							<td>
+								{values.currency}
+								{dep.allocatedBudget}
+							</td>
 							<td>
 								<button
 									onClick={() => handleIncreaseAllocation(dep.id)}

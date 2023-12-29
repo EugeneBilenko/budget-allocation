@@ -7,6 +7,7 @@ import { AllocationTable } from './components/AllocationTable';
 import { INIT_FORM_VALUES } from './constants/data';
 import { ChangeAllocation } from './components/ChangeAllocation';
 import { BudgetInput } from './components/BudgetInput';
+import { CurrencyDropdown } from './components/CurrencyDropdown';
 
 function App() {
 	return (
@@ -22,16 +23,19 @@ function App() {
 
 									<div className="w-full p-3 rounded-lg bg-green-200 flex items-center justify-between gap-x-1 text-green-800">
 										<span>Remaining:</span>
-										{/* todo: currency sign */}
-										<span className="font-semibold">${values.remaining}</span>
+										<span className="font-semibold">
+											{values.currency}
+											{values.remaining}
+										</span>
 									</div>
-									<div className="w-full p-3 rounded-lg bg-blue-200 flex items-center justify-between gap-x-1 text-blue-700">
+									<div className="w-full p-3 rounded-lg bg-blue-200 flex items-center justify-between gap-x-1 text-blue-700 whitespace-nowrap">
 										<span>Spent so far:</span>
-										<span className="font-semibold">${values.spent}</span>
+										<span className="font-semibold">
+											{values.currency}
+											{values.spent}
+										</span>
 									</div>
-									<div className="p-3 rounded-lg bg-gray-200">
-										<span>checkbox</span>
-									</div>
+									<CurrencyDropdown />
 								</div>
 
 								<AllocationTable />

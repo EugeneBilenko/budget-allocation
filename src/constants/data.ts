@@ -8,10 +8,27 @@ export const DEPARTMENTS = [
 	{ name: 'IT', allocatedBudget: 0, id: 'it_dep' }
 ];
 
+export const CURRENCY = {
+	dollar: '$',
+	pound: '£',
+	euro: '€',
+	rupee: '₹'
+};
+
+export type CurrencyValue = (typeof CURRENCY)[keyof typeof CURRENCY];
+
+export const CURRENCY_OPTIONS = [
+	{ name: 'Dollar', symbol: CURRENCY.dollar },
+	{ name: 'Pound', symbol: CURRENCY.pound },
+	{ name: 'Euro', symbol: CURRENCY.euro },
+	{ name: 'Rupee', symbol: CURRENCY.rupee }
+];
+
 export const INIT_FORM_VALUES: BudgetAllocationFormType = {
 	budget: 0,
 	spent: 0,
 	remaining: 0,
+	currency: CURRENCY.dollar,
 	departments: []
 };
 
@@ -19,6 +36,7 @@ export type BudgetAllocationFormType = {
 	budget: number;
 	spent: number;
 	remaining: number;
+	currency: CurrencyValue;
 	departments: DepartmentType[];
 };
 

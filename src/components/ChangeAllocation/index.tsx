@@ -170,7 +170,7 @@ export const ChangeAllocation = () => {
 				</div>
 				<div className="flex items-stretch text-center">
 					<div className="flex items-center mr-1">
-						<p>$</p>
+						<p>{values.currency}</p>
 					</div>
 					<input
 						type="number"

@@ -57,7 +57,7 @@ export const ChangeAllocation = () => {
 				return;
 			}
 			if (department) {
-				if (+event.target.value > department.allocatedBudget) {
+				if (+event.target.value >= department.allocatedBudget) {
 					alert('You cannot decrease value more than allocated');
 					return;
 				}

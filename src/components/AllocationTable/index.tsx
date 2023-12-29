@@ -5,28 +5,74 @@ import { FiMinusCircle, FiPlusCircle, FiXCircle } from 'react-icons/fi';
 import { BudgetAllocationFormType } from '../../constants/data';
 
 export const AllocationTable = () => {
-	const { values, setFieldValue } = useFormikContext<BudgetAllocationFormType>();
+	const { values, setFieldValue, setValues } = useFormikContext<BudgetAllocationFormType>();
 
-	const handleIncreaseAllocation = () => {
-		const remaining = (values.budget = values.spent);
-		if (remaining < 10) {
+	const handleIncreaseAllocation = (dep_id: string) => {
+		if (values.remaining < 10) {
 			alert('Remaining budget is less than 10.');
+		} else {
+			const newList = values.departments.map((dep) =>
+				dep.id !== dep_id
+					? dep
+					: {
+							...dep,
+							allocatedBudget: dep.allocatedBudget + 10
+						}
+			);
+			const spent = newList.reduce((acc, curr) => acc + curr.allocatedBudget, 0);
+			const remaining = values.budget - spent;
+
+			setValues((prev) => ({
+				...prev,
+				spent,
+				remaining,
+				departments: newList
+			}));
 		}
 	};
 
-	const handleDecreaseAllocation = (allocated: number) => {
-		if (allocated < 10) {
-			alert('Can`t assign negative value.');
+	const handleDecreaseAllocation = (dep_id: string) => {
+		const department = values.departments.find((dep) => dep.id === dep_id);
+		if (department) {
+			if (department.allocatedBudget <= 10) {
+				alert('You cannot reduce allocated value lower or equal to zero.');
+			} else {
+				const newList = values.departments.map((dep) =>
+					dep.id !== dep_id
+						? dep
+						: {
+								...dep,
+								allocatedBudget: dep.allocatedBudget - 10
+							}
+				);
+				const spent = newList.reduce((acc, curr) => acc + curr.allocatedBudget, 0);
+				const remaining = values.budget - spent;
+
+				setValues((prev) => ({
+					...prev,
+					remaining,
+					spent,
+					departments: newList
+				}));
+			}
 		}
 	};
 
 	const handleDelete = (dep_id: string) => {
 		const newAllocations = values.departments.filter((dep) => dep.id !== dep_id);
-		setFieldValue('departments', newAllocations);
+		const spent = newAllocations.reduce((acc, curr) => acc + curr.allocatedBudget, 0);
+		const remaining = values.budget - spent;
+
+		setValues((prev) => ({
+			...prev,
+			spent,
+			remaining,
+			departments: newAllocations
+		}));
 	};
 
 	return (
-		<div className="mt-5">
+		<div>
 			<h2 className="text-xl font-semibold">Allocation</h2>
 			<table className="w-full">
 				<thead>
@@ -45,7 +91,7 @@ export const AllocationTable = () => {
 							<td>${dep.allocatedBudget}</td>
 							<td>
 								<button
-									onClick={handleIncreaseAllocation}
+									onClick={() => handleIncreaseAllocation(dep.id)}
 									className="rounded-full flex items-center justify-center text-green-500"
 								>
 									<FiPlusCircle size="24px" />
@@ -53,7 +99,7 @@ export const AllocationTable = () => {
 							</td>
 							<td>
 								<button
-									onClick={() => handleDecreaseAllocation(dep.allocatedBudget)}
+									onClick={() => handleDecreaseAllocation(dep.id)}
 									className="rounded-full flex items-center justify-center text-red-500"
 								>
 									<FiMinusCircle size="24px" />

@@ -11,15 +11,31 @@ export const DEPARTMENTS = [
 export const INIT_FORM_VALUES: BudgetAllocationFormType = {
 	budget: 0,
 	spent: 0,
-	departments: DEPARTMENTS
+	remaining: 0,
+	departments: []
 };
 
 export type BudgetAllocationFormType = {
 	budget: number;
 	spent: number;
-	departments: {
-		name: string;
-		id: string;
-		allocatedBudget: number;
-	}[];
+	remaining: number;
+	departments: DepartmentType[];
 };
+
+export type DepartmentType = {
+	name: string;
+	id: string;
+	allocatedBudget: number;
+};
+
+export const ALLOCATION_ACTIONS = {
+	add: 'add',
+	remove: 'remove'
+};
+
+export type AllocationActionValue = (typeof ALLOCATION_ACTIONS)[keyof typeof ALLOCATION_ACTIONS];
+
+export const ALLOCATION_OPTIONS: { label: string; value: AllocationActionValue }[] = [
+	{ label: 'Add', value: ALLOCATION_ACTIONS.add },
+	{ label: 'Remove', value: ALLOCATION_ACTIONS.remove }
+];
